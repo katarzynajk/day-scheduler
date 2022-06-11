@@ -31,8 +31,23 @@
       <!-- current date and time -->
       <p id="currentDay" class="lead"></p>
     </header>
-    <div class="container">
+    <div class="container" id="time-blocks">
       <!-- time blocks go here -->
+      <div class="row p-2">
+        <div
+          class="col-md-1 col-sm-12 text-center my-1 d-flex flex-column justify-content-center"
+        >
+          9am
+        </div>
+        <!-- text area for your task -->
+        <textarea class="col-md-9 col-sm-12" rows="3"></textarea>
+        <div
+          class="col-md-2 col-sm-12 text-center my-1 d-flex flex-column justify-content-center"
+        >
+          <!-- btn to save task in LS -->
+          <button type="button" class="btn btn-success">Save</button>
+        </div>
+      </div>
     </div>
 
     <!-- jquery -->
