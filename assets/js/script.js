@@ -3,6 +3,7 @@ const renderDate = () => {
   const date = moment().format("Do of MMMM YYYY HH:mm");
   $("#currentDay").append(date);
 };
+
 $(window).on("load", renderDate);
 
 /* working hour labels */
@@ -18,24 +19,56 @@ const workHours = [
   { timeLabel: "5pm", key: 17 },
 ];
 
+const readFromLocalStorage = (key, defaultValue) => {
+  // get the data from LS by using key name
+  const dataFromLS = localStorage.getItem(key);
+
+  // parse the data from LS
+  const parsedData = JSON.parse(dataFromLS);
+
+  if (parsedData) {
+    return parsedData;
+  } else {
+    return defaultValue;
+  }
+};
+
+const writeToLocalStorage = (key, value) => {
+  // convert the value to string
+  const stringifiedValue = JSON.stringify(value);
+  localStorage.setItem(key, stringifiedValue);
+};
+
+const getEventForTimeBlock = (workHours) => {
+  const dayplanner = readFromLocalStorage("dayplanner", {});
+
+  return dayplanner[workHours] || "";
+};
+
 const timeBlocks = $("#time-blocks");
 // time blocks from index.html
 const renderTimeBlocks = () => {
-  const renderTimeBlock = () => {
+  const renderTimeBlock = (workHours) => {
+    console.log(workHours);
     // make the time blocks to render dynamically
-    const timeBlock = `<div class="row p-2">
+    const timeBlock = `<div class="row p-2 ${getClassName(workHours.key)}">
     <div
       class="col-md-1 col-sm-12 text-center my-1 d-flex flex-column justify-content-center"
-    >
-      9am
+    >${workHours.timeLabel}
     </div>
     <!-- text area for your task -->
-    <textarea class="col-md-9 col-sm-12" rows="3"></textarea>
+    <textarea data-task=${
+      workHours.key
+    }class="col-md-9 col-sm-12" rows="3">${getEventForTimeBlock(
+      workHours.key
+    )}</textarea>
     <div
       class="col-md-2 col-sm-12 text-center my-1 d-flex flex-column justify-content-center"
     >
       <!-- btn to save task in LS -->
-      <button type="button" class="btn btn-success">Save</button>
+      <button type="button" data-hour=${
+        workingHour.key
+      } class="btn btn-success">Save</button>
     </div>`;
     timeBlocks.append(timeBlock);
   };
