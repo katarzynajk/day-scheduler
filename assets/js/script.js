@@ -1,4 +1,4 @@
-/* current date & time */
+// current date & time
 const renderDate = () => {
   const date = moment().format("Do of MMMM YYYY HH:mm");
   $("#currentDay").append(date);
@@ -19,6 +19,7 @@ const workHours = [
   { timeLabel: "5pm", key: 17 },
 ];
 
+// Local Storage !
 const readFromLocalStorage = (key, defaultValue) => {
   // get the data from LS by using key name
   const dataFromLS = localStorage.getItem(key);
@@ -45,38 +46,69 @@ const getEventForTimeBlock = (workHours) => {
   return dayplanner[workHours] || "";
 };
 
-const timeBlocks = $("#time-blocks");
+// btn function to clear LS and clear contents
+$("#clearFieldsBtn").click(function (event) {
+  event.preventDefault;
+  $("textarea").val("");
+  localStorage.clear();
+});
+
 // time blocks from index.html
 const renderTimeBlocks = () => {
+  const timeBlocks = $("#time-blocks");
   const renderTimeBlock = (workHours) => {
-    console.log(workHours);
     // make the time blocks to render dynamically
     const timeBlock = `<div class="row p-2 ${getClassName(workHours.key)}">
-    <div
-      class="col-md-1 col-sm-12 text-center my-1 d-flex flex-column justify-content-center"
+    <div class="col-md-1 col-sm-12 text-center my-1 d-flex flex-column justify-content-center"
     >${workHours.timeLabel}
     </div>
-    <!-- text area for your task -->
     <textarea data-task=${
       workHours.key
-    }class="col-md-9 col-sm-12" rows="3">${getEventForTimeBlock(
+    } class="col-md-9 col-sm-12" rows="3">${getEventForTimeBlock(
       workHours.key
     )}</textarea>
     <div
-      class="col-md-2 col-sm-12 text-center my-1 d-flex flex-column justify-content-center"
-    >
-      <!-- btn to save task in LS -->
+      class="col-md-2 col-sm-12 text-center my-1 d-flex flex-column justify-content-center">
       <button type="button" data-hour=${
-        workingHour.key
+        workHours.key
       } class="btn btn-success">Save</button>
     </div>`;
     timeBlocks.append(timeBlock);
   };
+
   workHours.forEach(renderTimeBlock);
+  timeBlocks.on("click", savetoLS);
+};
+
+const savetoLS = (event) => {
+  const target = $(event.target);
+
+  if (target.is("button")) {
+    const key = target.attr("data-hour");
+    const value = $(`textarea[data-task="${key}"]`).val().trim();
+    const dayplanner = readFromLocalStorage("dayplanner", {});
+
+    dayplanner[key] = value;
+
+    writeToLocalStorage("dayplanner", dayplanner);
+  }
+};
+
+const getClassName = (workHours) => {
+  const currentdate = moment().hour();
+
+  if (workHours === currentdate) {
+    return "present";
+  }
+  if (workHours > currentdate) {
+    return "future";
+  }
+  return "past";
 };
 
 // document on ready
 const onReady = () => {
-  renderDate();
-  renderTimeBlock();
+  renderTimeBlocks();
 };
+
+$(document).ready(onReady);

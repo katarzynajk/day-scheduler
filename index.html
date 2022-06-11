@@ -30,26 +30,14 @@
       <p class="lead">A simple calendar app for scheduling your work day</p>
       <!-- current date and time -->
       <p id="currentDay" class="lead"></p>
+      <!-- btn to clear LS and clear contents -->
+      <button id="clearFieldsBtn" type="button" class="btn btn-secondary">
+        Clear Fields
+      </button>
     </header>
-    <div class="container" id="time-blocks">
-      <!-- time blocks go here -->
-      <!-- each time block -->
-      <div class="row p-2">
-        <div
-          class="col-md-1 col-sm-12 text-center my-1 d-flex flex-column justify-content-center"
-        >
-          9am
-        </div>
-        <!-- text area for your task -->
-        <textarea class="col-md-9 col-sm-12" rows="3"></textarea>
-        <div
-          class="col-md-2 col-sm-12 text-center my-1 d-flex flex-column justify-content-center"
-        >
-          <!-- btn to save task in LS -->
-          <button type="button" class="btn btn-success">Save</button>
-        </div>
-      </div>
-    </div>
+    <div class="container" id="time-blocks"></div>
+    <!-- time blocks go here -->
+    <!-- each time block -->
 
     <!-- jquery -->
     <script
