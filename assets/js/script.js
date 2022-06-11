@@ -3,8 +3,7 @@ const renderDate = () => {
   const date = moment().format("Do of MMMM YYYY HH:mm");
   $("#currentDay").append(date);
 };
-
-const timeBlocks = $("#time-blocks");
+$(window).on("load", renderDate);
 
 /* working hour labels */
 const workHours = [
@@ -19,7 +18,32 @@ const workHours = [
   { timeLabel: "5pm", key: 17 },
 ];
 
-// document on ready
-const onReady = () => {};
+const timeBlocks = $("#time-blocks");
+// time blocks from index.html
+const renderTimeBlocks = () => {
+  const renderTimeBlock = () => {
+    // make the time blocks to render dynamically
+    const timeBlock = `<div class="row p-2">
+    <div
+      class="col-md-1 col-sm-12 text-center my-1 d-flex flex-column justify-content-center"
+    >
+      9am
+    </div>
+    <!-- text area for your task -->
+    <textarea class="col-md-9 col-sm-12" rows="3"></textarea>
+    <div
+      class="col-md-2 col-sm-12 text-center my-1 d-flex flex-column justify-content-center"
+    >
+      <!-- btn to save task in LS -->
+      <button type="button" class="btn btn-success">Save</button>
+    </div>`;
+    timeBlocks.append(timeBlock);
+  };
+  workHours.forEach(renderTimeBlock);
+};
 
-$(window).on("load", renderDate);
+// document on ready
+const onReady = () => {
+  renderDate();
+  renderTimeBlock();
+};
