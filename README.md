@@ -16,4 +16,4 @@ SO THAT I can manage my time effectively
 
 ### <summary>Desktop viewport</summary>
 
-![desktop-viewport](./assets/img/screencapture-127-0-0-1-5500-index-html-2022-06-11-22_02_51.png)
+![desktop-viewport](./assets/img/screencapture-katarzynajk-github-io-day-scheduler-2022-06-13-14_06_14.png)
